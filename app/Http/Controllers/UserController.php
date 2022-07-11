@@ -6,7 +6,7 @@ use App\Http\Requests\StorePanelRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
-use App\View\Components\Datatable\basicdatatable;
+use App\View\Components\Datatable\BasicDatatable;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Request;
 

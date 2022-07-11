@@ -574,7 +574,7 @@ class ComposerStaticInitcd3343a3cd69463e76efe0847242dbdc
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\FortifyServiceProvider' => __DIR__ . '/../..' . '/app/Providers/FortifyServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
-        'App\\View\\Components\\Datatable\\basicDatatable' => __DIR__ . '/../..' . '/app/View/Components/Datatable/basicDatatable.php',
+        'App\\View\\Components\\Datatable\\BasicDatatable' => __DIR__ . '/../..' . '/app/View/Components/Datatable/BasicDatatable.php',
         'App\\View\\Components\\Forms\\button' => __DIR__ . '/../..' . '/app/View/Components/Forms/button.php',
         'App\\View\\Components\\Forms\\input' => __DIR__ . '/../..' . '/app/View/Components/Forms/input.php',
         'App\\View\\Components\\Item\\alert' => __DIR__ . '/../..' . '/app/View/Components/Item/alert.php',

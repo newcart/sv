@@ -38,7 +38,7 @@ return array(
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\FortifyServiceProvider' => $baseDir . '/app/Providers/FortifyServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
-    'App\\View\\Components\\Datatable\\basicDatatable' => $baseDir . '/app/View/Components/Datatable/basicDatatable.php',
+    'App\\View\\Components\\Datatable\\BasicDatatable' => $baseDir . '/app/View/Components/Datatable/BasicDatatable.php',
     'App\\View\\Components\\Forms\\button' => $baseDir . '/app/View/Components/Forms/button.php',
     'App\\View\\Components\\Forms\\input' => $baseDir . '/app/View/Components/Forms/input.php',
     'App\\View\\Components\\Item\\alert' => $baseDir . '/app/View/Components/Item/alert.php',
