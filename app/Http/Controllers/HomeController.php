@@ -20,6 +20,7 @@ class HomeController extends Controller
         $data['breadcramps'] = 'Home/Dashboard';
         $data['title'] = 'Welcome!';
         $data['message'] = 'Welcome!';
+        $data['source'] = url('post/list');
         return view('admin', ['data'=>$data]);
     }
 

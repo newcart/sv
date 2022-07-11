@@ -16,14 +16,14 @@ class input extends Component
     public $name;
     public $type;
     public $label;
-    public function __construct($class, $type, $name, $value, $label)
+
+    public function __construct($name, $label, $class='', $type='', $value='')
     {
         $this->class = $class;
         $this->value = $value;
         $this->name = $name;
-        $this->type = $type;
+        $this->type = $this->validated_type($type);
         $this->label = $label;
-
     }
 
     /**
@@ -36,9 +36,10 @@ class input extends Component
         return view('components.forms.input');
     }
     private function validated_type($type){
-        $types = ['text','number','file','checkbox','radio','email','password','textarea'];
-        if(isset($types[$type])){
-            return $types[$type];
+
+        $types = ['text','hidden','number','file','checkbox','radio','email','password','textarea'];
+        if(in_array($type, $types)){
+            return $type;
         }
         return 'text';
     }

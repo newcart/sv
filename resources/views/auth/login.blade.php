@@ -10,8 +10,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <form method="POST" class="text-start" action="{{ route('login') }}">
+                <div id="vueForm" class="card-body">
+                    <form id="app" method="POST" class="text-start" action="{{ route('login') }}">
                         @csrf
                         <x-forms.input label="Email" class="error" type="email" name="email" :value="old('email')" required autofocus />
                         <x-forms.input label="Password" type="password" class="error" name="password" required :value="old('password')" />
@@ -23,5 +23,6 @@
             </div>
         </div>
     </div>
+
 @stop
 
