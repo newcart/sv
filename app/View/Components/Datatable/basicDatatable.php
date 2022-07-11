@@ -4,7 +4,7 @@ namespace App\View\Components\Datatable;
 
 use Illuminate\View\Component;
 
-class basicdatatable extends Component
+class basicDatatable extends Component
 {
     /**
      * Create a new component instance.
