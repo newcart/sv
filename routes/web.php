@@ -25,12 +25,12 @@ Route::middleware( 'auth:sanctum')->group(function () {
     Route::post('/api/user/save/{id}', [App\Http\Controllers\UserController::class, 'apipost'])->name('user.apipost');
     Route::get('/api/user/list', [App\Http\Controllers\UserController::class, 'apilist'])->name('user.apilist');
 
-    Route::get('/post/list', [App\Http\Controllers\PostController::class, 'index'])->name('post.list');
-    Route::get('/post/create', [App\Http\Controllers\PostController::class, 'create'])->name('post.create');
-    Route::get('/post/edit/{id}', [App\Http\Controllers\PostController::class, 'edit'])->name('post.edit');
-    Route::post('/post/store', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
-    Route::get('/post/page', [App\Http\Controllers\PostController::class, 'page'])->name('post.page');
-    Route::get('/api/post/list', [App\Http\Controllers\PostController::class, 'apilist'])->name('post.apilist');
-    Route::get('/api/post/get/{id}', [App\Http\Controllers\PostController::class, 'apiget'])->name('post.apiget');
-    Route::post('/api/post/save/{id}', [App\Http\Controllers\PostController::class, 'apipost'])->name('post.apipost');
+    Route::get('/store/create', [App\Http\Controllers\StoreController::class, 'create'])->name('store.create');
+    Route::get('/store/list', [App\Http\Controllers\StoreController::class, 'index'])->name('store.list');
+    //Route::get('/post/edit/{id}', [App\Http\Controllers\PostController::class, 'edit'])->name('post.edit');
+    //Route::post('/post/store', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
+    //Route::get('/post/page', [App\Http\Controllers\PostController::class, 'page'])->name('post.page');
+    Route::get('/api/store/list', [App\Http\Controllers\StoreController::class, 'apilist'])->name('store.apilist');
+    Route::get('/api/post/get/{id}', [App\Http\Controllers\StoreController::class, 'apiget'])->name('store.apiget');
+    Route::post('/api/post/save/{id}', [App\Http\Controllers\StoreController::class, 'apipost'])->name('store.apipost');
 });

@@ -19,6 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->liste();
         $data['sections'] = \Hattat::get_view_comon_sections();
         $data['sections']['content'] = 'post.post-index';
         $data['breadcramps'] = 'User/List';
@@ -229,5 +230,14 @@ class UserController extends Controller
         $html .= '</span>';
         return $html;
     }
-
+    private function liste(){
+        $response = \Http::withHeaders([
+            'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
+        ])->withOptions([
+            'debug' => false,
+        ])->withBasicAuth(
+            'supervisor', 'TiJgxQE2t5LluwHT'
+        )->get( 'localhost:3000/1/trendyol/service_test');
+        print_r($response->body());
+    }
 }
