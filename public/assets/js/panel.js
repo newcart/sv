@@ -82,7 +82,7 @@ panel = {
                                     }
                                 })
                                 .catch(function (error) {
-                                    panel.vueInfoPopup.call('sonuc',error.message)
+                                    alert(error.message)
                                 });
                         },
                         page_number: function(i){
