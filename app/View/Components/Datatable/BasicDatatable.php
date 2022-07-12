@@ -25,15 +25,10 @@ class BasicDatatable extends Component
         $this->cols = isset($dataTable['cols'])?$dataTable['cols']:[];
         $this->visibleCols = isset($dataTable['visibleCols'])?$dataTable['visibleCols']:[];
     }
-    static function new($model, $source){
+    static function new($source, $fields){
         $data_table = get_class_vars(self::class);
         $data_table['source'] = url($source);
-        $fields = [];
-        if(is_string($model)){
-            $fields = \Schema::getColumnListing($model);
-        } elseif (is_object($model) && method_exists($model, 'getTable')){
-            $fields = \Schema::getColumnListing($model->getTable());
-        }
+
 
         if($fields){
             foreach($fields as $field){

@@ -129,6 +129,7 @@ panel = {
         }).mount(selector);
     },
     editForm: function(selector, get, post){
+        panel._hideForm(selector)
         axios.get( get )
             .then(function(response){
                 if(response.data.status=='success'){
@@ -137,12 +138,27 @@ panel = {
                     panel.vueInfoPopup.call(response.data.title,response.data.message)
                     panel._createForm(selector, get, post, {})
                 }
+                panel._showForm(selector)
             })
             .catch(function (error) {
+                if(error.response.data){
+                    error.message += ', ' + error.response.data.message
+                }
                 panel.vueInfoPopup.call('sonuc',error.message)
             });
+    },
+    _hideForm: function(selector){
+        let items = document.querySelectorAll(selector)
+        if(items.length){
+            //items[0].transition = "transition:opacity 10s linear;";
+            items[0].style.opacity = 0;
+        }
+    },
+    _showForm: function(selector){
+        let items = document.querySelectorAll(selector)
+        if(items.length){
+            //items[0].transition = "transition:opacity 10s linear;";
+            items[0].style.opacity = 1;
+        }
     }
 }
-
-
-

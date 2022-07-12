@@ -17,7 +17,7 @@
             <label class="form-label">{{ $label }}</label>
             <input v-model="fields.{{ $name }}" type="{{ $type }}" name="{{ $name }}" class="form-control">
         @elseif($type=='checkbox')
-            <input v-model="fields.{{ $name }}" class="form-check-input" type="checkbox">
+            <input v-model="fields.{{ $name }}" type="checkbox" name="{{ $name }}" class="form-check-input" value="{{ $value }}">
             <label class="form-check-label mb-0 ms-2" for="rememberMe">{{ $label }}</label>
         @elseif($type=='textarea')
             <label class="form-label">{{ $label }}</label>

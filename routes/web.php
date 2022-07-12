@@ -27,10 +27,11 @@ Route::middleware( 'auth:sanctum')->group(function () {
 
     Route::get('/store/create', [App\Http\Controllers\StoreController::class, 'create'])->name('store.create');
     Route::get('/store/list', [App\Http\Controllers\StoreController::class, 'index'])->name('store.list');
-    //Route::get('/post/edit/{id}', [App\Http\Controllers\PostController::class, 'edit'])->name('post.edit');
+    Route::get('/store/edit/{id}', [App\Http\Controllers\StoreController::class, 'edit'])->name('store.edit');
     //Route::post('/post/store', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
     //Route::get('/post/page', [App\Http\Controllers\PostController::class, 'page'])->name('post.page');
+    Route::get('/api/store/get/{id}', [App\Http\Controllers\StoreController::class, 'apiget'])->name('store.apiget');
+    Route::post('/api/store/save/{id}', [App\Http\Controllers\StoreController::class, 'apipost'])->name('store.apipost');
     Route::get('/api/store/list', [App\Http\Controllers\StoreController::class, 'apilist'])->name('store.apilist');
-    Route::get('/api/post/get/{id}', [App\Http\Controllers\StoreController::class, 'apiget'])->name('store.apiget');
-    Route::post('/api/post/save/{id}', [App\Http\Controllers\StoreController::class, 'apipost'])->name('store.apipost');
 });
+

@@ -1,4 +1,4 @@
-<div id="vueForm" class="row">
+<div id="vueForm" class="row" style="opacity: 0">
     <form method="POST" class="text-start"  v-on:submit.prevent="onSubmit">
         @csrf
         <x-forms.input type="text" label="Code" name="store_code" class="" value="" required autofocus />
@@ -13,7 +13,7 @@
         <x-forms.input type="select" label="town_id" name="town_id" class="" value="" />
         <x-forms.input type="select" label="city_id" name="city_id" class="" value="" />
         <x-forms.input type="select" label="country_id" name="country_id" class="" value="" />
-        <x-forms.input type="checkbox" label="status" name="Status" class="" value="" />
+        <x-forms.input type="checkbox" label="status" name="status" class="" value="1" />
         <x-forms.input type="hidden" label="" name="store_id" class="" value="" />
         <x-forms.button type="submit" class="danger" value="Save" name="save" />
         <x-item.notice />

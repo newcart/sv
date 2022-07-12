@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePanelRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-
 use App\View\Components\Datatable\BasicDatatable;
-use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 class StoreController extends Controller
@@ -19,28 +16,25 @@ class StoreController extends Controller
      */
     public function index()
     {
-
         $data['sections'] = \Hattat::get_view_comon_sections();
-        $data['sections']['content'] = 'post.post-index';
+        $data['sections']['content'] = 'store.store-index';
         $data['breadcramps'] = 'Store/List';
         $data['title'] = 'Welcome!';
         $data['message'] = 'Welcome!';
-        $data['dataTable'] = [];
+        $data['dataTable'] = BasicDatatable::new('api/store/list', $this->getFields() );
+
         $data['dataTable']['tableTitle'] = 'List of Stores';
         $data['dataTable']['visibleCols'] = [
             'store_id'   =>'Store Id',
             'store_code' =>'Store Code',
             'store_name' =>'Name',
-            'address'    =>'Address',
-            'town_id'    =>'Town',
             'city_id'    =>'City',
             'country_id' =>'Country',
-            'tax_number' =>'Tax Number',
-            'tax_office' =>'Tax Office',
             'email'      =>'Email',
             'mobile'     =>'Mobile Phone',
             'telephone'  =>'Phone',
             'status'     =>'Status',
+            'actions'    =>'İşlemler',
         ];
         return view('admin', ['data'=>$data]);
     }
@@ -63,25 +57,6 @@ class StoreController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function myprofile()
-    {
-        $data['sections'] = \Hattat::get_view_comon_sections();
-        $data['sections']['content'] = 'store.store-edit';
-        $data['breadcramps'] = 'Store/My Profile';
-        $data['title'] = 'My Profile!';
-        $data['message'] = 'My Profile!';
-        $user = auth()->user();
-        $data['apiget'] = route('store.apiget',['id'=>$user->id]);
-        $data['apipost'] = route('store.apipost',['id'=>$user->id]);
-        return view('admin', ['data'=>$data]);
-
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreUserRequest  $request
@@ -95,10 +70,10 @@ class StoreController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Store  $user
+     * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $user)
+    public function show(Store $store)
     {
         //
     }
@@ -106,16 +81,16 @@ class StoreController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Store  $user
+     * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function edit(Store $user, $id)
+    public function edit(Request $request, $id)
     {
         $data['sections'] = \Hattat::get_view_comon_sections();
         $data['sections']['content'] = 'store.store-edit';
-        $data['breadcramps'] = 'Store/Store Profile';
-        $data['title'] = 'Store Profile!';
-        $data['message'] = 'Store Profile!';
+        $data['breadcramps'] = 'Store/Edit Store';
+        $data['title'] = 'Edit Store!';
+        $data['message'] = 'Edit Store!';
         $data['apiget'] = route('store.apiget',['id'=>$id]);
         $data['apipost'] = route('store.apipost',['id'=>$id]);
         return view('admin', ['data'=>$data]);
@@ -125,13 +100,13 @@ class StoreController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateUserRequest  $request
-     * @param  \App\Models\Store  $user
+     * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request, Store $user)
+    public function update(UpdateUserRequest $request, Store $store)
     {
         $data = $request->all();
-        $user::where('id', $data['id'])
+        $store::where('id', $data['id'])
             ->update($data);
         $this->setJsonResponseStatus('success');
         $this->setJsonResponseTitle('İşlem Sonucu');
@@ -142,36 +117,23 @@ class StoreController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Store  $user
+     * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Store $user)
+    public function destroy(Store $store)
     {
         //
     }
 
     public function apiget(Request $request, $id){
-        $response =$this->getir($id);
+        $end_point = '0/store/info';
+        $response =$this->getir($end_point, ['store_id'=>$id]);
         $this->setJsonResponseTitle('İşlem Sonucu');
-        if(isset($response['data']) && isset($response['data']['id'])){
+        if(isset($response['data']) && isset($response['data']['store_id'])){
             $this->setJsonResponseStatus('success');
-            $user = $response['data'];
+            $store = $response['data'];
         } else{
-            $user =  [
-                'store_id'   =>'',
-                'store_code' =>'',
-                'store_name' =>'',
-                'address'    =>'',
-                'town_id'    =>'',
-                'city_id'    =>'',
-                'country_id' =>'',
-                'tax_number' =>'',
-                'tax_office' =>'',
-                'email'      =>'',
-                'mobile'     =>'',
-                'telephone'  =>'',
-                'status'     =>'',
-            ];
+            $store =  $this->getFields();
             if(empty($id)){
                 $this->setJsonResponseStatus('success');
             } else {
@@ -179,7 +141,7 @@ class StoreController extends Controller
                 $this->setJsonResponseMessage('Kayıt silinmiş veya kaybolmuş olabilir.');
             }
         }
-        $this->setJsonResponseData($user);
+        $this->setJsonResponseData($store);
         return $this->jsonResponse;
     }
 
@@ -200,19 +162,21 @@ class StoreController extends Controller
             $store['mobile'] = $fields['mobile'];
             $store['telephone'] = $fields['telephone'];
             $store['status'] = $fields['status'];
-            $response = $this->kaydet($store);
+            $end_point = '0/store/save';
+            $response = $this->kaydet($end_point, $store);
+
             if(isset($response['data']) && array_key_exists('store_id', $response['data'])){
                 if($response['status']=='success'){
                     $this->setJsonResponseStatus('success');
                     $this->setJsonResponseData($response['data']);
                 } else{
-                    $this->setJsonResponseStatus('success');
-                    $this->setJsonResponseMessage($response['message']);
+                    $this->setJsonResponseStatus('failure');
                 }
             } else {
-                $this->setJsonResponseStatus('success');
+                $this->setJsonResponseStatus('failure');
                 $this->setJsonResponseData($store);
             }
+            $this->setJsonResponseMessage($response['message']);
         } catch (\Exception $ex){
             $this->setJsonResponseStatus('error');
             $this->setJsonResponseMessage($ex->getMessage());
@@ -222,11 +186,13 @@ class StoreController extends Controller
         return $this->jsonResponse;
     }
 
-    public function apilist(Request $request, Store $user){
+    public function apilist(Request $request){
+
         $page = $request->get('user', 0);
         $page = max(0, $page);
-        $response = $this->liste();
-        //$query = $user->skip(list_limit() * $page)->take(list_limit())->get();
+        $end_point = '0/store/list';
+        $response = $this->liste($end_point, $page);
+
         if(isset($response['data']) && isset($response['data']['items'])){
             foreach ($response['data']['items'] as $key=>$row){
                 $row['image'] = '<div class="avatar-group mt-2">
@@ -240,7 +206,7 @@ class StoreController extends Controller
             $result['status'] = 'success';
             //$result['data']['rows'] = $query->all();
             $result['data']['page'] = $page;
-            $result['data']['pages'] = \Hattat::get_pagination($page, $user->count(), list_limit()) ;
+            $result['data']['pages'] = \Hattat::get_pagination($page, $response['data']['count'], list_limit()) ;
         } else{
             $result['status'] = 'failure';
             $result['title'] = 'Kayıt Bulunamadı';
@@ -254,43 +220,29 @@ class StoreController extends Controller
     }
 
     public function actionButtons($row){
-        $url = route('store.edit', ['id'=>$row['id']]);
+        $url = route('store.edit', ['id'=>$row['store_id']]);
         $html = '<span style="float: right">';
-        $html .= '<span class="badge badge-sm bg-gradient-success">Online</span>';
         $html .= '<a class="btn btn-link text-dark px-3 mb-0" href="'.$url.'"><i class="material-icons text-sm me-2">edit</i></a>';
         $html .= '</span>';
         return $html;
     }
 
-    private function liste(){
-        $response = \Http::withHeaders([
-            'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
-        ])->withOptions([
-            'debug' => false,
-        ])->withBasicAuth(
-            'supervisor', 'TiJgxQE2t5LluwHT'
-        )->post( 'localhost:3000/0/store/list',['page'=>0, 'limit'=>100]);
-        return $response->json();
-    }
+    private function getFields(){
+        return  [
+            'store_id'   =>'',
+            'store_code' =>'',
+            'store_name' =>'',
+            'address'    =>'',
+            'town_id'    =>'',
+            'city_id'    =>'',
+            'country_id' =>'',
+            'tax_number' =>'',
+            'tax_office' =>'',
+            'email'      =>'',
+            'mobile'     =>'',
+            'telephone'  =>'',
+            'status'     =>'',
+        ];
 
-    private function getir($id){
-        $response = \Http::withHeaders([
-            'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
-        ])->withOptions([
-            'debug' => false,
-        ])->withBasicAuth(
-            'supervisor', 'TiJgxQE2t5LluwHT'
-        )->post( 'localhost:3000/0/store/info',['id'=>$id]);
-        return $response->json();
-    }
-    private function kaydet($store){
-        $response = \Http::withHeaders([
-            'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
-        ])->withOptions([
-            'debug' => false,
-        ])->withBasicAuth(
-            'supervisor', 'TiJgxQE2t5LluwHT'
-        )->post( 'localhost:3000/0/store/save',$store);
-        return $response->json();
     }
 }
