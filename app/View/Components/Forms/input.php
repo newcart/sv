@@ -37,7 +37,7 @@ class input extends Component
     }
     private function validated_type($type){
 
-        $types = ['text','hidden','number','file','checkbox','radio','email','password','textarea'];
+        $types = ['text','hidden','number','file','checkbox','radio','email','password','textarea','cities'];
         if(in_array($type, $types)){
             return $type;
         }

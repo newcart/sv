@@ -11,7 +11,7 @@
         <x-forms.input type="text" label="tax_office" name="tax_office" class="" value="" />
         <x-forms.input type="text" label="address" name="address" class="" value="" />
         <x-forms.input type="select" label="town_id" name="town_id" class="" value="" />
-        <x-forms.input type="select" label="city_id" name="city_id" class="" value="" />
+        <x-forms.input type="cities" label="city_id" name="city_id" class="" value="" />
         <x-forms.input type="select" label="country_id" name="country_id" class="" value="" />
         <x-forms.input type="checkbox" label="status" name="status" class="" value="1" />
         <x-forms.input type="hidden" label="" name="store_id" class="" value="" />
