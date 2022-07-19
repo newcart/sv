@@ -22,20 +22,53 @@
         @elseif($type=='textarea')
             <label class="form-label">{{ $label }}</label>
             <textarea v-model="fields.{{ $name }}" name="{{ $name }}" class="form-control" rows="10">{{ $value }}"</textarea>
-        @elseif($type=='cities')
+        @elseif($type=='countries')
             <label class="form-label">{{ $label }}</label>
             <select v-model="fields.{{ $name }}" name="{{ $name }}" class="form-control">
             <?php
-            $cities = Hattat::get_cities();
-            foreach($cities as $city_name=>$city_value){
-                if($city_value==$value){
+            $cities = Hattat::get_countries();
+            foreach($cities as $city_name=>$city_code){
+                if($city_code==$value){
                     $selected = 'selected';
                 } else {
                     $selected = '';
                 }
             ?>
-                <option value="{{ $city_value }}" {{ $selected }}>{{ $city_name }}</option>
+                <option value="{{ $city_code }}" {{ $selected }}>{{ $city_name }}</option>
             <?php } ?>
+            </select>
+        @elseif($type=='cities')
+            <label class="form-label">{{ $label }}</label>
+            <select v-model="fields.{{ $name }}" name="{{ $name }}" class="form-control">
+            <?php
+            $cities = Hattat::get_cities();
+            foreach($cities as $city_name=>$city_code){
+                if($city_code==$value){
+                    $selected = 'selected';
+                } else {
+                    $selected = '';
+                }
+            ?>
+                <option value="{{ $city_code }}" {{ $selected }}>{{ $city_name }}</option>
+            <?php } ?>
+            </select>
+        @elseif($type=='towns')
+            <label class="form-label">{{ $label }}</label>
+            <select v-model="fields.{{ $name }}" name="{{ $name }}" class="form-control">
+            <?php
+            $cities = Hattat::get_towns();
+            foreach($cities as $city_code=>$towns){
+                foreach($towns as $town_name=>$town_code){
+                    if($town_code==$value){
+                        $selected = 'selected';
+                    } else {
+                        $selected = '';
+                    }
+                ?>
+                <option value="{{ $town_code }}" {{ $selected }}>{{ $town_name }}</option>
+                <?php
+                }
+            } ?>
             </select>
         @else
             <label class="form-label">{{ $label }}</label>

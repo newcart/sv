@@ -36,8 +36,7 @@ class input extends Component
         return view('components.forms.input');
     }
     private function validated_type($type){
-
-        $types = ['text','hidden','number','file','checkbox','radio','email','password','textarea','cities'];
+        $types = ['text','hidden','number','file','checkbox','radio','email','password','textarea','cities', 'towns', 'countries'];
         if(in_array($type, $types)){
             return $type;
         }
